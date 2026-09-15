@@ -43,57 +43,58 @@ target_link_libraries(vulkan_wrapper PUBLIC
     glm::glm
 )
 
-
 target_compile_definitions(vulkan_wrapper PUBLIC
     VULKAN_HPP_NO_STRUCT_CONSTRUCTORS
     VULKAN_HPP_HANDLE_ERROR_OUT_OF_DATE_AS_SUCCESS
 )
 
-find_program(SLANGC_EXECUTABLE slangc REQUIRED)
-set(SHADER_SLANG_SOURCES
-    ${CMAKE_CURRENT_SOURCE_DIR}/apps/obj_loader/object_loader.slang
-)
-set(NEW_SHADER_BINARY
-    obj_loader.spv
-)
-message(STATUS "Shader sources: ${SHADER_SLANG_SOURCES}")
+# find_program(SLANGC_EXECUTABLE slangc REQUIRED)
+#
+# set(SHADER_SLANG_SOURCES
+#     ${CMAKE_CURRENT_SOURCE_DIR}/apps/obj_loader/object_loader.slang
+# )
+# set(NEW_SHADER_BINARY
+#     obj_loader.spv
+# )
+# message(STATUS "Shader sources: ${SHADER_SLANG_SOURCES}")
 
-function (add_slang_shader_target TARGET)
-    # thank god this was written for me by khronos because what is going on here
-    cmake_parse_arguments ("SHADER" "" "" "SOURCES" ${ARGN})
-    set (SHADERS_DIR ${CMAKE_CURRENT_LIST_DIR}/shaders)
-    set (ENTRY_POINTS -entry vertMain -entry fragMain)
-    add_custom_command (
-        OUTPUT ${SHADERS_DIR}
-        COMMAND ${CMAKE_COMMAND} -E make_directory ${SHADERS_DIR}
-    )
-  add_custom_command (
-          OUTPUT  ${SHADERS_DIR}/${NEW_SHADER_BINARY}
-          COMMAND ${SLANGC_EXECUTABLE} ${SHADER_SOURCES} -target spirv -profile spirv_1_4 -emit-spirv-directly -fvk-use-entrypoint-name ${ENTRY_POINTS} -o ${NEW_SHADER_BINARY}
-          WORKING_DIRECTORY ${SHADERS_DIR}
-          DEPENDS ${SHADERS_DIR} ${SHADER_SOURCES}
-          COMMENT "Compiling Slang Shaders"
-          VERBATIM
-  )
-  add_custom_target (${TARGET} DEPENDS ${SHADERS_DIR}/${NEW_SHADER_BINARY})
-endfunction()
+# function (add_slang_shader_target TARGET)
+#     # thank god this was written for me by khronos because what is going on here
+#     cmake_parse_arguments ("SHADER" "" "" "SOURCES" ${ARGN})
+#     set (SHADERS_DIR ${CMAKE_CURRENT_LIST_DIR}/shaders)
+#     set (ENTRY_POINTS -entry vertMain -entry fragMain)
+#     add_custom_command (
+#         OUTPUT ${SHADERS_DIR}
+#         COMMAND ${CMAKE_COMMAND} -E make_directory ${SHADERS_DIR}
+#     )
+#   add_custom_command (
+#           OUTPUT  ${SHADERS_DIR}/${NEW_SHADER_BINARY}
+#           COMMAND ${SLANGC_EXECUTABLE} ${SHADER_SOURCES} -target spirv -profile spirv_1_4 -emit-spirv-directly -fvk-use-entrypoint-name ${ENTRY_POINTS} -o ${NEW_SHADER_BINARY}
+#           WORKING_DIRECTORY ${SHADERS_DIR}
+#           DEPENDS ${SHADERS_DIR} ${SHADER_SOURCES}
+#           COMMENT "Compiling Slang Shaders"
+#           VERBATIM
+#   )
+#   add_custom_target (${TARGET} DEPENDS ${SHADERS_DIR}/${NEW_SHADER_BINARY})
+# endfunction()
 
 add_executable(vulkan_app
-    apps/mandelbulb/mandelbulb_app.cc
-    apps/3d_plane_spin/3d_app.cc
-    apps/conways/conways_app.cc
-    apps/slime_simulation/slime.cc
-    apps/shader_hashing/shader_hash.cc
-    apps/obj_loader/obj_loader.cc
-    apps/obj_loader/tiny_obj.cc
-    apps/app_loader.cpp
+    # apps/mandelbulb/mandelbulb_app.cc
+    # apps/3d_plane_spin/3d_app.cc
+    # apps/conways/conways_app.cc
+    # apps/slime_simulation/slime.cc
+    # apps/shader_hashing/shader_hash.cc
+    # apps/obj_loader/obj_loader.cc
+    # apps/obj_loader/tiny_obj.cc
+    # apps/app_loader.cpp
+    src/main.cpp
 )
 
-add_slang_shader_target( shaders SOURCES ${SHADER_SLANG_SOURCES})
-
-add_dependencies(vulkan_app 
-    shaders
-)
+# add_slang_shader_target( shaders SOURCES ${SHADER_SLANG_SOURCES})
+#
+# add_dependencies(vulkan_app 
+#     shaders
+# )
 
 target_link_libraries(vulkan_app PRIVATE
     vulkan_wrapper
