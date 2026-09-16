@@ -4,6 +4,19 @@
 #include <iostream>
 #include <vulkan/vulkan_raii.hpp>
 
+auto DescriptorUtils::DescriptorContainer::descriptor_pool()
+    -> vk::raii::DescriptorPool & {
+  return pool;
+}
+auto DescriptorUtils::DescriptorContainer::descriptor_set(std::size_t index)
+    -> vk::raii::DescriptorSet & {
+  return sets[index];
+}
+auto DescriptorUtils::DescriptorContainer::descriptor_set_layout()
+    -> vk::raii::DescriptorSetLayout & {
+  return set_layout;
+}
+
 auto DescriptorUtils::DescriptorContainer::create(
     std::size_t num_frames_in_flight,
     const DescriptorUtils::DescriptorInformer &descriptor_informer,
