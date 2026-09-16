@@ -60,18 +60,6 @@ auto BufferUtils::UniformBufferContainer<UB>::create(
     BufferUtils::UniformBufferContainerCreateInfo info,
     const vk::raii::Device &device, const vk::raii::PhysicalDevice &phys_device)
     -> std::expected<UniformBufferContainer, std::string> {
-  // Descriptor Set Layout
-  auto uniform_buffer_layout_binding = vk::DescriptorSetLayoutBinding{
-      .binding = 0,
-      .descriptorType = vk::DescriptorType::eUniformBuffer,
-      .descriptorCount = 1,
-      .stageFlags = info.stage};
-
-  auto ubo_layout = vk::DescriptorSetLayoutCreateInfo{
-      .bindingCount = 1, .pBindings = &uniform_buffer_layout_binding};
-
-  auto descriptor_set_layout =
-      vk::raii::DescriptorSetLayout(device, ubo_layout);
 
   // Initialise Uniform Buffers
   auto uniform_buffers = std::vector<vk::raii::Buffer>{};
@@ -96,6 +84,19 @@ auto BufferUtils::UniformBufferContainer<UB>::create(
     uniform_buffers_mapped.emplace_back(
         uniform_buffers_memory.back().mapMemory(0, buffer_size));
   }
+
+  // Descriptor Set Layout
+  auto uniform_buffer_layout_binding = vk::DescriptorSetLayoutBinding{
+      .binding = 0,
+      .descriptorType = vk::DescriptorType::eUniformBuffer,
+      .descriptorCount = 1,
+      .stageFlags = info.stage};
+
+  auto ubo_layout = vk::DescriptorSetLayoutCreateInfo{
+      .bindingCount = 1, .pBindings = &uniform_buffer_layout_binding};
+
+  auto descriptor_set_layout =
+      vk::raii::DescriptorSetLayout(device, ubo_layout);
 
   // Remaining Descriptor Data
   auto descriptor_pool_size = vk::DescriptorPoolSize{
