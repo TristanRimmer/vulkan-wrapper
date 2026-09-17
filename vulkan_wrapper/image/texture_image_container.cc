@@ -2,6 +2,17 @@
 #include "stb_image.h"
 #include "vulkan_wrapper/device/helpers.hh"
 #include "vulkan_wrapper/image/image_utils.hh"
+#include <vulkan/vulkan_raii.hpp>
+
+auto ImageUtils::TextureImageContainer::image() -> vk::raii::Image & {
+  return tex_image;
+}
+auto ImageUtils::TextureImageContainer::memory() -> vk::raii::DeviceMemory & {
+  return image_memory;
+}
+auto ImageUtils::TextureImageContainer::view() -> vk::raii::ImageView & {
+  return image_view;
+}
 
 auto ImageUtils::TextureImageContainer::create(
     ImageUtils::TextureImageCreateInfo info, const vk::raii::Device &logical,

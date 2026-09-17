@@ -1,4 +1,5 @@
 #include "descriptor_informer.hh"
+#include <print>
 #include <utility>
 
 auto DescriptorUtils::DescriptorInformer::register_uniform_buffer(
