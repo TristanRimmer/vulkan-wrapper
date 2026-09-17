@@ -84,15 +84,14 @@ function (add_slang_shader_target TARGET)
 endfunction()
 
 add_executable(vulkan_app
-    # apps/mandelbulb/mandelbulb_app.cc
+    apps/mandelbulb/mandelbulb_app.cc
     apps/3d_plane_spin/3d_app.cc
-    # apps/conways/conways_app.cc
-    # apps/slime_simulation/slime.cc
-    # apps/shader_hashing/shader_hash.cc
-    # apps/obj_loader/obj_loader.cc
-    # apps/obj_loader/tiny_obj.cc
+    apps/conways/conways_app.cc
+    apps/slime_simulation/slime.cc
+    apps/shader_hashing/shader_hash.cc
+    apps/obj_loader/obj_loader.cc
+    apps/obj_loader/tiny_obj.cc
     apps/app_loader.cpp
-    # src/main.cpp
 )
 
 add_slang_shader_target( shaders SOURCES ${SHADER_SLANG_SOURCES})
