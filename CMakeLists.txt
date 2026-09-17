@@ -35,6 +35,7 @@ add_library(vulkan_wrapper
     vulkan_wrapper/image/texture_image_container.cc
     vulkan_wrapper/descriptor/descriptor_informer.cc
     vulkan_wrapper/descriptor/descriptor_container.cc
+    vulkan_wrapper/sampler/sampler_container.cc
 )
 
 target_include_directories(vulkan_wrapper PUBLIC
